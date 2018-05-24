@@ -22,18 +22,20 @@ import json
 import logging
 import time
 
-# TODO(aarontp): Selectively load dependencies based on configured backends
-import psq
-
 from turbinia import config
 from turbinia.config import logger
-from turbinia.lib.google_cloud import GoogleCloudFunction
 from turbinia.state_manager import RedisStateManager
 from turbinia import task_manager
 from turbinia import TurbiniaException
 
 log = logging.getLogger('turbinia')
 logger.setup()
+# TODO('ericzinnikas') Figure out a good way to do this
+# TODO(aarontp): Selectively load dependencies based on configured backends
+config.LoadConfig()
+if config.TASK_MANAGER == 'PSQ':
+  import psq
+  from turbinia.lib.google_cloud import GoogleCloudFunction
 
 
 class TurbiniaClient(object):

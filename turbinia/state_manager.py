@@ -25,15 +25,19 @@ import logging
 from datetime import datetime
 from datetime import timedelta
 
-from google.cloud import datastore
-import redis
-
 from turbinia import config
 from turbinia import TurbiniaException
 from turbinia.workers import TurbiniaTask
 from turbinia.workers import TurbiniaTaskResult
 
 log = logging.getLogger('turbinia')
+# TODO('ericzinnikas') Figure out a good way to do this
+config.LoadConfig()
+if config.TASK_MANAGER == 'PSQ':
+  from google.cloud import datastore
+elif config.TASK_MANAGER == 'Celery':
+  import redis
+
 
 def get_state_manager():
   """Return state manager object based on config.
