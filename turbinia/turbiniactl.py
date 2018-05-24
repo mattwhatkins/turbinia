@@ -304,7 +304,6 @@ def main():
     server = TurbiniaServer()
     server.start()
   elif args.command == 'status':
-    region = config.TURBINIA_REGION
     if args.wait and args.request_id:
       client.wait_for_request(
           instance=config.PUBSUB_TOPIC, project=config.PROJECT, region=region,
