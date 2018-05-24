@@ -20,13 +20,6 @@ import logging
 import time
 import traceback
 
-import psq
-from google.cloud import datastore
-from google.cloud import pubsub
-from google.gax.errors import GaxError
-
-from celery import states as celery_states
-
 import turbinia
 from turbinia import evidence
 from turbinia import config
@@ -35,6 +28,16 @@ from turbinia import pubsub as turbinia_pubsub
 from turbinia import state_manager
 
 log = logging.getLogger('turbinia')
+# TODO('ericzinnikas') Figure out a good way to do this
+config.LoadConfig()
+if config.TASK_MANAGER == 'PSQ':
+  import psq
+  from google.cloud import datastore
+  from google.cloud import pubsub
+  from google.gax.errors import GaxError
+elif config.TASK_MANAGER == 'Celery':
+  from celery import states as celery_states
+
 
 
 def get_task_manager():

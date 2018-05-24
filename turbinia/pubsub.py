@@ -22,18 +22,21 @@ import logging
 import Queue
 import uuid
 
-from google.cloud import pubsub
-
-import celery
-import kombu
-from amqp.exceptions import ChannelError
-
 # Turbinia
 from turbinia import config
 from turbinia import evidence
 from turbinia import TurbiniaException
 
 log = logging.getLogger('turbinia')
+# TODO('ericzinnikas') Figure out a good way to do this
+config.LoadConfig()
+if config.TASK_MANAGER == 'PSQ':
+  from google.cloud import pubsub
+elif config.TASK_MANAGER == 'Celery':
+  import celery
+  import kombu
+  from amqp.exceptions import ChannelError
+
 
 
 class TurbiniaRequest(object):
