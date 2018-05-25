@@ -28,7 +28,7 @@ from pip.download import PipSession
 
 setup(
     name='Turbinia',
-    version='20170801',
+    version='20170801+fb20180525',
     long_description=__doc__,
     packages=find_packages(),
     include_package_data=True,
