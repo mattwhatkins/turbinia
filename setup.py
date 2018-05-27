@@ -32,7 +32,7 @@ except ImportError: # for pip <= 9.0.3
 
 setup(
     name='Turbinia',
-    version='20170801+fb20180525',
+    version='20170801+fb20180529',
     long_description=__doc__,
     packages=find_packages(),
     include_package_data=True,
