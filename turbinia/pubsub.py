@@ -155,7 +155,7 @@ class TurbiniaKombu(object):
   """Queue object for receiving evidence messages.
 
   Attributes:
-    queue (Kombu.SimpleBuffer): evidence queue.
+    queue (Kombu.SimpleBuffer|Kombu.SimpleQueue): evidence queue.
   """
 
   def __init__(self, routing_key):
@@ -178,21 +178,22 @@ class TurbiniaKombu(object):
     Returns:
       list[TurbiniaRequest]: all evidence requests.
     """
-    results = []
+    requests = []
     while True:
       try:
         message = self.queue.get(block=False)
-        results.append(message.payload)
+        request = self._validate_message(message.payload)
+        if request:
+          requests.append(message.payload)
         if self.queue.queue.durable:
           message.ack()
       except Queue.Empty:
         break
       except ChannelError:
         break
-    log.debug('Received {0:d} messages'.format(len(results)))
-    return [self._validate_message(result)
-            for result in results
-            if self._validate_message(result)]
+
+    log.debug('Received {0:d} messages'.format(len(requests)))
+    return requests
 
   def send_message(self, message):
     """Enqueues a message with Kombu"""
@@ -272,7 +273,6 @@ class TurbiniaPubSub(object):
       A list of any TurbiniaRequest objects received, else an empty list
     """
     results = self.subscription.pull(return_immediately=True)
-    log.debug('Recieved {0:d} pubsub messages'.format(len(results)))
 
     ack_ids = []
     requests = []
@@ -291,6 +291,7 @@ class TurbiniaPubSub(object):
     if results:
       self.subscription.acknowledge(ack_ids)
 
+    log.debug('Recieved {0:d} pubsub messages'.format(len(requests)))
     return requests
 
   def send_message(self, message):
