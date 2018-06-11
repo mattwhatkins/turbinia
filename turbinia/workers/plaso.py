@@ -17,6 +17,7 @@
 from __future__ import unicode_literals
 
 import os
+import shutil
 
 from turbinia import config
 from turbinia.evidence import PlasoFile
@@ -39,6 +40,9 @@ class PlasoTask(TurbiniaTask):
     config.LoadConfig()
     plaso_evidence = PlasoFile()
 
+    plaso_orig = os.path.join(self.output_dir, '{0:s}.plaso'.format(self.id))
+    plaso_tmp = os.path.join(config.TMP_DIR, '{0:s}.plaso'.format(self.id))
+
     plaso_file = os.path.join(self.output_dir, '{0:s}.plaso'.format(self.id))
     plaso_evidence.local_path = plaso_file
     plaso_log = os.path.join(self.output_dir, '{0:s}.log'.format(self.id))
@@ -50,11 +54,14 @@ class PlasoTask(TurbiniaTask):
     if config.DEBUG_TASKS:
       cmd.append('-d')
     cmd.extend(['--logfile', plaso_log])
-    cmd.extend([plaso_file, evidence.local_path])
+    cmd.extend([plaso_tmp, evidence.local_path])
 
     result.log('Running plaso as [{0:s}]'.format(' '.join(cmd)))
 
     self.execute(cmd, result, save_files=[plaso_log],
                  new_evidence=[plaso_evidence], close=True)
+
+    result.log("Moving from tmp location '{0:s}' to '{1:s}'".format(plaso_tmp, plaso_orig))
+    shutil.move(plaso_tmp, plaso_orig)
 
     return result

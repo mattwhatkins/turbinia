@@ -42,6 +42,7 @@ CONFIGVARS = [
     'SINGLE_RUN',
     'MOUNT_DIR_PREFIX',
     'SHARED_FILESYSTEM',
+    'TMP_DIR',
     # TODO(aarontp): Move this to the recipe config when it's available.
     'DEBUG_TASKS',
     # GCE CONFIG
