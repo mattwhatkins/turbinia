@@ -77,4 +77,4 @@ class SSHDAnalysisJob(interface.TurbiniaJob):
     return tasks
 
 
-manager.JobsManager.RegisterJobs([SSHDAnalysisJob, SSHDExtractionJob])
+# manager.JobsManager.RegisterJobs([SSHDAnalysisJob, SSHDExtractionJob])

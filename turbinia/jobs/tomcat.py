@@ -76,4 +76,4 @@ class TomcatAnalysisJob(interface.TurbiniaJob):
     return tasks
 
 
-manager.JobsManager.RegisterJobs([TomcatExtractionJob, TomcatAnalysisJob])
+# manager.JobsManager.RegisterJobs([TomcatExtractionJob, TomcatAnalysisJob])

@@ -46,4 +46,4 @@ class GrepJob(interface.TurbiniaJob):
     return tasks
 
 
-manager.JobsManager.RegisterJob(GrepJob)
+# manager.JobsManager.RegisterJob(GrepJob)

@@ -77,5 +77,5 @@ class HTTPAccessLogAnalysisJob(interface.TurbiniaJob):
     evidence = [e for e in evidence if e.artifact_name in ACCESS_LOG_ARTIFACTS]
     return [wordpress.WordpressAccessLogAnalysisTask() for _ in evidence]
 
-manager.JobsManager.RegisterJobs(
-    [HTTPAccessLogExtractionJob, HTTPAccessLogAnalysisJob])
+# manager.JobsManager.RegisterJobs(
+    # [HTTPAccessLogExtractionJob, HTTPAccessLogAnalysisJob])

@@ -56,4 +56,4 @@ class StringsJob(interface.TurbiniaJob):
     return tasks
 
 
-manager.JobsManager.RegisterJob(StringsJob)
+# manager.JobsManager.RegisterJob(StringsJob)

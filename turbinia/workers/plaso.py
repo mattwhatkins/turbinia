@@ -45,7 +45,7 @@ class PlasoTask(TurbiniaTask):
 
     # TODO(aarontp): Move these flags into a recipe
     cmd = (
-        'log2timeline.py --status_view none --hashers all '
+        'log2timeline.py --status_view none --hashers none '
         '--partition all --vss_stores all').split()
     if config.DEBUG_TASKS:
       cmd.append('-d')

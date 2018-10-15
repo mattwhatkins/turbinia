@@ -46,4 +46,4 @@ class HadoopAnalysisJob(interface.TurbiniaJob):
     tasks = [HadoopAnalysisTask() for _ in evidence]
     return tasks
 
-manager.JobsManager.RegisterJob(HadoopAnalysisJob)
+# manager.JobsManager.RegisterJob(HadoopAnalysisJob)
