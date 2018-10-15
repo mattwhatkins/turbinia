@@ -40,6 +40,7 @@ def extract_artifacts(artifact_names, disk_path, output_dir):
 
   image_export_cmd = [
       'image_export.py',
+      '--vss_stores', 'all',
       '--artifact_filters', artifacts,
       '--write', output_dir,
       disk_path

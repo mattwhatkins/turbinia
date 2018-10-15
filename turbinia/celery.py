@@ -33,6 +33,7 @@ from turbinia import config
 from turbinia.message import TurbiniaMessageBase
 
 log = logging.getLogger('turbinia')
+kombu.enable_insecure_serializers()
 
 
 class TurbiniaCelery(object):

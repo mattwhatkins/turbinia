@@ -415,30 +415,30 @@ class TurbiniaTask(object):
     Returns:
       A TurbiniaTaskResult object
     """
-    with filelock.FileLock(config.LOCK_FILE):
-      log.info('Starting Task {0:s} {1:s}'.format(self.name, self.id))
-      original_result_id = None
-      try:
-        self.result = self.setup(evidence)
-        original_result_id = self.result.id
-        self._evidence_config = evidence.config
-        self.result = self.run(evidence, self.result)
-      # pylint: disable=broad-except
-      except Exception as e:
-        msg = '{0:s} Task failed with exception: [{1!s}]'.format(
-            self.name, e)
-        log.error(msg)
-        log.error(traceback.format_exc())
-        if self.result:
-          self.result.log(msg)
-          self.result.log(traceback.format_exc())
-          if hasattr(e, 'message'):
-            self.result.set_error(e.message, traceback.format_exc())
-          else:
-            self.result.set_error(e.__class__, traceback.format_exc())
-          self.result.status = msg
+    # with filelock.FileLock(config.LOCK_FILE):
+    log.info('Starting Task {0:s} {1:s}'.format(self.name, self.id))
+    original_result_id = None
+    try:
+      self.result = self.setup(evidence)
+      original_result_id = self.result.id
+      self._evidence_config = evidence.config
+      self.result = self.run(evidence, self.result)
+    # pylint: disable=broad-except
+    except Exception as e:
+      msg = '{0:s} Task failed with exception: [{1!s}]'.format(
+          self.name, e)
+      log.error(msg)
+      log.error(traceback.format_exc())
+      if self.result:
+        self.result.log(msg)
+        self.result.log(traceback.format_exc())
+        if hasattr(e, 'message'):
+          self.result.set_error(e.message, traceback.format_exc())
         else:
-          log.error('No TurbiniaTaskResult object found after task execution.')
+          self.result.set_error(e.__class__, traceback.format_exc())
+        self.result.status = msg
+      else:
+        log.error('No TurbiniaTaskResult object found after task execution.')
 
       self.result = self.validate_result(self.result)
 

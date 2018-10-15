@@ -48,6 +48,8 @@ class FileArtifactExtractionTask(TurbiniaTask):
 
     cmd = [
         'image_export.py',
+        '--vss_stores',
+        'all',
         '--logfile',
         image_export_log,
         '-w',
