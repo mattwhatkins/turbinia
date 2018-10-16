@@ -24,6 +24,29 @@ import threading
 from turbinia import TurbiniaException
 
 
+def extract_filetype(extensions, disk_path, output_dir):
+  # Plaso image_export expects file names as a comma separated string.
+
+  image_export_cmd = [
+      'image_export.py',
+      '--vss_stores', 'all',
+      '-x', ','.join(extensions),
+      '--write', output_dir,
+      disk_path
+  ]
+
+  # TODO: Consider break the exec helper to gather stdin/err.
+  try:
+    subprocess.check_call(image_export_cmd)
+  except subprocess.CalledProcessError:
+    raise TurbiniaException('image_export.py failed.')
+
+  collected_file_paths = []
+  for dirpath, _, filenames in os.walk(output_dir):
+    for filename in filenames:
+      collected_file_paths.append(os.path.join(dirpath, filename))
+
+  return collected_file_paths
 def extract_artifacts(artifact_names, disk_path, output_dir):
   """Extract artifacts using image_export from Plaso.
 

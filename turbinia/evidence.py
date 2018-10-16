@@ -180,6 +180,7 @@ class RawDisk(Evidence):
     super(RawDisk, self).__init__(*args, **kwargs)
 
 
+
 class EncryptedDisk(RawDisk):
   """Encrypted disk file evidence.
 

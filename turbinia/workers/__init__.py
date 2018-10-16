@@ -242,7 +242,8 @@ class TurbiniaTask(object):
               save_files=None,
               new_evidence=None,
               close=False,
-              shell=False):
+              shell=False,
+              python=False):
     """Executes a given binary and saves output.
 
     Args:
@@ -260,14 +261,19 @@ class TurbiniaTask(object):
     """
     save_files = save_files if save_files else []
     new_evidence = new_evidence if new_evidence else []
-    if shell:
-      proc = subprocess.Popen(cmd, shell=True)
+    if python:
+      output = None
+      ret = None
+      exec(cmd)
     else:
-      proc = subprocess.Popen(cmd)
-    stdout, stderr = proc.communicate()
-    result.error['stdout'] = stdout
-    result.error['stderr'] = stderr
-    ret = proc.returncode
+      if shell:
+        proc = subprocess.Popen(cmd, shell=True)
+      else:
+        proc = subprocess.Popen(cmd)
+      stdout, stderr = proc.communicate()
+      result.error['stdout'] = stdout
+      result.error['stderr'] = stderr
+      ret = proc.returncode
 
     if ret:
       msg = 'Execution failed with status {0:d}'.format(ret)
