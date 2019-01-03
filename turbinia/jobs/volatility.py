@@ -17,7 +17,7 @@
 from __future__ import unicode_literals
 
 from turbinia.evidence import RawMemory
-from turbinia.evidence import TextFile
+from turbinia.evidence import VolatilityOutput
 from turbinia.jobs import interface
 from turbinia.jobs import manager
 from turbinia.workers.volatility import VolatilityTask
@@ -30,7 +30,7 @@ class VolatilityJob(interface.TurbiniaJob):
     """
 
     evidence_input = [RawMemory]
-    evidence_output = [TextFile]
+    evidence_output = [VolatilityOutput]
 
     NAME = 'VolatilityJob'
 
